@@ -3,8 +3,7 @@ services:
   web:
     build:
       context: .
-    environment:
-      - DATABASE_URL=postgres://postgres@db:5432/medium_dev
+    env_file: ./.env    
     volumes: 
       - .:/home/app
     depends_on:
