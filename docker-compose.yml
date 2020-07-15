@@ -5,6 +5,8 @@ services:
       context: .
     environment:
       - DATABASE_URL=postgres://postgres@db:5432/medium_dev
+    volumes: 
+      - .:/home/app
     depends_on:
       - db
     ports:
