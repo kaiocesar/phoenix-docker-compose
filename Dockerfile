@@ -1,20 +1,17 @@
-# Elixir + Phoenix
+FROM elixir:1.9.1-slim
 
-FROM elixir:1.6.1
+RUN apt-get update -qq && apt-get -y --allow-unauthenticated install curl libpq-dev postgresql-client git make erlang-crypto apt-transport-https
 
-# Install debian packages
-RUN apt-get update
-RUN apt-get install --yes build-essential inotify-tools postgresql-client
+RUN mkdir /home/app
+WORKDIR /home/app
+RUN mkdir -p /home/app/deps/
 
-# Install Phoenix packages
 RUN mix local.hex --force
 RUN mix local.rebar --force
-RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phx_new.ez
 
-# Install node
-RUN curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
-RUN bash nodesource_setup.sh
-RUN apt-get install nodejs
+COPY . .
 
-WORKDIR /app
 EXPOSE 4000
+
+
+
