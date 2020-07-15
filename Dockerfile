@@ -1,17 +1,14 @@
-FROM elixir:1.9.1-slim
+FROM bitwalker/alpine-elixir:1.10.3 as build
 
-RUN apt-get update -qq && apt-get -y --allow-unauthenticated install curl libpq-dev postgresql-client git make erlang-crypto apt-transport-https
+ENV MIX_ENV="dev" \
+    APP_NAME="myapp"
 
-RUN mkdir /home/app
-WORKDIR /home/app
-RUN mkdir -p /home/app/deps/
+WORKDIR /app
 
-RUN mix local.hex --force
-RUN mix local.rebar --force
+# COPY . .
+# RUN mix deps.get && \
+#     mix deps.compile
 
-COPY . .
+EXPOSE 4004
 
-EXPOSE 4000
-
-
-
+CMD ["iex", "-S", "mix"]
